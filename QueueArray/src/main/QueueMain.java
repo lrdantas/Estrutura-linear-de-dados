@@ -28,24 +28,23 @@ public class QueueMain {
         fila.enqueue("elemento4");
         fila.enqueue("elemento5");
         fila.enqueue("elemento6");
-              fila.enqueue("elemento1");
-        fila.enqueue("elemento2");
-        fila.enqueue("elemento3");
-        fila.enqueue("elemento4");
-        fila.enqueue("elemento5");
-        fila.enqueue("elemento6");
-              fila.enqueue("elemento1");
-        fila.enqueue("elemento2");
-        fila.enqueue("elemento3");
-        fila.enqueue("elemento4");
-        fila.enqueue("elemento5");
-        fila.enqueue("elemento6");
+        fila.enqueue("elemento7");
+        fila.enqueue("elemento8");
+        fila.enqueue("elemento9");
+        fila.enqueue("elemento10");
+        fila.enqueue("elemento11");
+        fila.enqueue("elemento12");
+        fila.enqueue("elemento13");
+        fila.enqueue("elemento14");
+        fila.enqueue("elemento15");
+        fila.enqueue("elemento16");
+        fila.enqueue("elemento17");
+        fila.enqueue("elemento18");
         
         while (!fila.isEmpty()) {
             System.out.println("Elemento removido: " + fila.first());
             fila.dequeue();
-            
-            
+                       
         }
     }
     

@@ -14,7 +14,7 @@ import model.Node;
  */
 public class Queue implements IQueue{
     
-    private Node root = null;
+    private Node head = null;
     private Node node = null;
     private int count = 0;
 
@@ -30,16 +30,16 @@ public class Queue implements IQueue{
 
     @Override
     public Object first() throws EEmptyQueue {
-        return this.root.getO();
+        return this.head.getO();
     }
 
     @Override
     public void enqueue(Object o) {
         Node temp = new Node(null, o);       
         
-        if(root == null){
+        if(head == null){
             this.node = temp;
-            this.root = this.node;
+            this.head = this.node;
         }
         else{
             node.setNext(temp);
@@ -52,8 +52,11 @@ public class Queue implements IQueue{
 
     @Override
     public Object dequeue() throws EEmptyQueue {
-        Object temp = this.root.getO();
-        this.root = this.root.getNext();
+        Object temp = this.head.getO();
+        Node tempc = this.head.getNext();
+        this.head.setNext(null);
+        
+        this.head = tempc;
         
         count--;
         return temp;
