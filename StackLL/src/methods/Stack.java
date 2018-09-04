@@ -36,7 +36,9 @@ public class Stack implements IStack{
         }
         count--;
         Object temp = this.no.getO();
-        this.no = this.no.getBefore();
+        Node tempc = this.no.getBefore();
+        this.no.setBefore(null);
+        this.no = tempc;
         return temp;
    
     }
@@ -46,7 +48,6 @@ public class Stack implements IStack{
         if(isEmpty()){
             throw new IsStackEmpty("A Pilha está vazia");        
         }
-       
         return this.no.getO();
     }
 
