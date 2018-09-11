@@ -14,10 +14,18 @@ import exception.ExceptionViolatedLimits;
  */
 public class Sequency implements ISequency{
     
-    private Node header = null;
-    private Node trailer = null;
+    private Node header;
+    private Node trailer;
     
     private int count = 0;
+
+    public Sequency() {
+        this.trailer = new Node(null, null, null);
+        this.header = new Node(null, trailer, null);
+        this.trailer.setPrev(header);
+    }
+    
+    
 
     @Override
     public int size() {
@@ -32,32 +40,35 @@ public class Sequency implements ISequency{
     //TAD Vector
 
     @Override
-    public Object elemAtRank(int r) {
+    public Object elemAtRank(int r) throws ExceptionEmptyList{
         return atRank(r).getO();
     }
 
     @Override
-    public void replaceAtRank(int r, Object o) {
+    public void replaceAtRank(int r, Object o) throws ExceptionEmptyList{
         atRank(r).setO(o);
     }
 
     @Override
     public void insertAtRank(int r, Object o) {
         Node temp = atRank(r);
-        Node no = new Node(temp,temp.getNext(),o);
-        temp.setNext(no);
+        Node no = new Node(temp.getPrev(), temp, o);
+        //Node no = new Node(temp,temp.getNext(),o);
+        temp.setPrev(no);
         
         count++;
     }
 
     @Override
-    public void removeAtRank(int r) {
+    public void removeAtRank(int r) throws ExceptionEmptyList{
         Node temp = atRank(r);
         Node prev = temp.getPrev();
         Node next = temp.getNext();
         
         prev.setNext(next);
         next.setPrev(prev);
+        
+        //temp = null;
         
         count--;
     }
