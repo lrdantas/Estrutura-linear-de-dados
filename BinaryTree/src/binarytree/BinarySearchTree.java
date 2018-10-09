@@ -18,23 +18,29 @@ public class BinarySearchTree {
     
     public void insert(Node n){
         
-        
-        
-        if(this.root == null){
+       if(this.root == null){
             n = root;
         }
-        if(tree == null){
-            tree = root;
-        }
-        if(n.getKey() < tree.getKey()){
-            tree = tree.getLeft();
-            insert(tree);
-        }
-        else if(n.getKey() > tree.getKey()){
-            insert(tree.getRight());
-        }
         
+        Node current = root;
+        Node parent = null;
         
+        while(true){
+            parent = current;
+            if(n.getKey()<current.getKey()){				
+                current = current.getLeft();
+                if(current==null){
+                    parent.setLeft(n);
+                    return;
+                }
+            }
+            else{
+                current = current.getRight();
+                if(current==null){
+                    parent.setRight(n);
+                    return;
+                }
+            }
+        }   
     }
-    
 }
