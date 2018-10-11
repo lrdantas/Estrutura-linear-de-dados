@@ -11,16 +11,17 @@ package heap;
  */
 public class Heap {
     
-    private int capacity = 10;
-    private int[] list = new int[capacity];
+    private int capacity = 12;
+    private int[] list;
     private int heapSize = 0;
 
     public int[] getList() {
         return list;
     }
 
-    public Heap(int capacity) {
-        this.capacity = capacity;
+    public Heap(int cap) {
+        this.capacity = cap;
+        list = new int[capacity];
     }
     
     public int top(){
@@ -54,10 +55,29 @@ public class Heap {
     }
     
     public boolean isLeaf(int index){
-        return getLeft(index) == 0 && getRight(index)== 0;
+        return getLeftIndex(index) > heapSize && getRightIndex(index) > heapSize;
+    }
+    
+    public boolean isFull(){
+        return heapSize == list.length -2;
+    }
+    
+    public void doubleArray(){
+        int[] temp = new int[list.length*2];
+        
+        for(int i = 1 ; i < list.length -1; i++){
+            temp[i] = this.list[i];
+        }
+        
+        this.list = temp;
+        
     }
     
     public void insert(int value){
+        
+        if(isFull()){
+            doubleArray();
+        }
         if(size() < 1){
             this.list[1] = value;
             this.heapSize = this.heapSize +1;
