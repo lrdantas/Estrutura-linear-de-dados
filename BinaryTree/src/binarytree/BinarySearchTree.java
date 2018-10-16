@@ -14,14 +14,24 @@ public class BinarySearchTree {
     private Node left;
     private Node right;
     private Node root;
-    private Node tree;
+    private Node findNode;
+    private Node parent;
+    private Node parentMinNode;
     private final String NULL_SUCH_KEY = "Não existe esta chave na arvore.";
+
+    public BinarySearchTree(Node root) {
+        this.root = root;
+    }
+    
+    public boolean isLeaf(Node no){
+        return no.getLeft() == null && no.getRight() ==null;
+    }
     
     
     public void insert(Node n){
         
        if(this.root == null){
-            n = root;
+            root = n;
             return;
         }
         
@@ -50,24 +60,14 @@ public class BinarySearchTree {
     public Object remove(int key){
         
         Node sentinel = root;
-        Node parent = null;
+        this.parent = null;
         
-        while(sentinel.getKey()!=key){
-            parent = sentinel;
-            if(sentinel.getKey() < key){
-                sentinel = sentinel.getLeft();
-            }
-            else{
-                sentinel = sentinel.getRight();
-            }
-            
-            if(sentinel == null){
-                return NULL_SUCH_KEY;
-            }        
-        }
+        sentinel = getNode(root, key);
         
-        if(sentinel.getLeft() == null && sentinel.getRight() ==null){
-            if(parent.getKey() < key){
+        //primeiro caso:
+        
+        if(isLeaf(sentinel)){
+            if(parent.getKey() > key){
                 parent.setLeft(null);
             }
             else{
@@ -75,7 +75,27 @@ public class BinarySearchTree {
             }
         }
         
-        //primeiro caso:
+        //segundo caso:
+        else if(sentinel.getLeft() != null && sentinel.getRight() !=null){
+            Node sucess;
+            sucess = minNode(sentinel.getRight());
+            sentinel = sucess;
+            
+            //if(parent.getKey()> sucess.getKey()){
+                //parent.setLeft(sucess);
+                //sucess.setLeft(sentinel.getLeft());
+                //sucess.setRight(sentinel.getRight());
+               
+            //}
+            //else{
+            //    parent.setRight(sucess);
+            //    sucess.setLeft(sentinel.getLeft());
+            //    sucess.setRight(sentinel.getRight());
+            //}
+        }
+        
+        //Terceiro caso:
+       
         else if(sentinel.getLeft()!=null){
             if(sentinel.getKey() > sentinel.getLeft().getKey()){
                 parent.setLeft(sentinel.getLeft());
@@ -85,7 +105,7 @@ public class BinarySearchTree {
             }         
         }
         
-        //Segundo caso:
+       
         else if(sentinel.getRight()!=null){
             if(sentinel.getKey() > sentinel.getLeft().getKey()){
                 parent.setLeft(sentinel.getRight());
@@ -95,27 +115,7 @@ public class BinarySearchTree {
             }                
         }
         
-        //terceiro caso:
-        else if(sentinel.getLeft() != null && sentinel.getRight() !=null){
-            Node sucess;
-            sucess = minNode(sentinel.getRight());
-            if(parent.getKey()< sucess.getKey()){
-                parent.setLeft(sucess);
-                sucess.setLeft(sentinel.getLeft());
-                sucess.setRight(sentinel.getRight());
-               
-            }
-            else{
-                parent.setRight(sucess);
-                sucess.setLeft(sentinel.getLeft());
-                sucess.setRight(sentinel.getRight());
-            }
-        }
     
-        
- 
-        
-        
         return "Deu certo coleguinha";
             
         
@@ -124,6 +124,7 @@ public class BinarySearchTree {
     public Node minNode(Node noM){
            
         while(noM.getLeft() != null){
+            this.parentMinNode = noM;
             noM = noM.getLeft();
         }        
         return noM;
@@ -136,5 +137,27 @@ public class BinarySearchTree {
             System.out.print(no.getKey() + " "); 
             inorder(no.getRight()); 
         } 
-    } 
+    }
+    
+    public Node getNode(Node no, int key){
+        
+        if(no.getKey() != key && no !=null){
+            if(no.getKey() > key && no.getLeft() !=null){
+                this.parent = no;
+                getNode(no.getLeft(), key);
+            }
+            else if(no.getRight()!= null){
+                this.parent = no;
+                getNode(no.getRight(), key);
+            }
+        }
+        else if(no.getKey() == key){
+            this.findNode = no;
+        }
+        
+        return this.findNode;
+        
+    }
+    
+   
 }
