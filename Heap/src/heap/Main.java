@@ -31,8 +31,22 @@ public class Main {
         heap.remove();
         heap.remove();
         heap.remove();
+        heap.remove();
+        heap.remove();
+        heap.remove();
+        heap.remove();
+        heap.remove();
+        heap.remove();
+        heap.remove();
+        heap.remove();
+        heap.remove();
+        heap.remove();
         
-        int[] lista = heap.getList();
+        
+        
+     
+        
+        int[] lista = heap.getSort();
         
         for(int i = 0; i < lista.length -1; i++){
             System.out.println("Lista:  :" + lista[i]);

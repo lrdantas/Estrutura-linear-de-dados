@@ -14,14 +14,21 @@ public class Heap {
     private int capacity = 12;
     private int[] list;
     private int heapSize = 0;
+    private int[] listSort;
+    private int j = 0;
 
     public int[] getList() {
         return list;
+    }
+    
+    public int[] getSort(){
+        return listSort;
     }
 
     public Heap(int cap) {
         this.capacity = cap;
         list = new int[capacity];
+        listSort = new int[capacity];
     }
     
     public int top(){
@@ -91,15 +98,29 @@ public class Heap {
     
     public void remove(){
         if(size() < 2){
+            listSort[j++] = this.list[1];
             this.list[1] = 0;
             this.heapSize = this.heapSize - 1;
         }
         else if(size()< 3){
-            this.list[1] = list[2];
+            
+            if(this.list[1] < this.list[2]){
+                listSort[j++] = this.list[1];
+                this.list[1] = this.list[2];
+                
+            }
+           
+            else{
+                listSort[j++] = this.list[2];
+            }
+            
             this.list[2] = 0;
-            this.heapSize = this.heapSize - 1;
+            heapSize--;;
+            
         }
         else{
+            //System.out.println("Minimo: " + this.list[1]);
+            listSort[j++] = this.list[1];
             this.list[1] = list[heapSize];
             this.list[heapSize] = 0;
             downHeap(1);
@@ -157,7 +178,7 @@ public class Heap {
                // downHeap(li);
             //}
                     
-        
+    
     }
    
 }
