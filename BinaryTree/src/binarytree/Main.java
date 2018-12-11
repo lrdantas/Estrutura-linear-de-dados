@@ -38,7 +38,7 @@ public class Main {
         tree.remove(19);
         tree.remove(12);
         
-        System.out.println("fing node: " + tree.getNode(root, 12).getKey());
+        System.out.println("find node: " + tree.getNode(root, 12).getKey());
         
         tree.inorder(root);
     
