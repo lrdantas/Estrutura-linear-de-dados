@@ -18,6 +18,7 @@ public class BinarySearchTree {
     private Node parent;
     private Node parentMinNode;
     private final String NULL_SUCH_KEY = "Não existe esta chave na arvore.";
+    private int altura = 0;
 
     public BinarySearchTree(Node root) {
         this.root = root;
@@ -125,7 +126,9 @@ public class BinarySearchTree {
            
         while(noM.getLeft() != null){
             this.parentMinNode = noM;
+            this.parentMinNode.setRight(noM.getLeft().getRight());
             noM = noM.getLeft();
+
         }        
         return noM;
     }
@@ -139,8 +142,9 @@ public class BinarySearchTree {
         } 
     }
     
+    //Acha um decendente através de um dado ancestral. ex: passado um nó raiz, acha a posição de um nó em uma determinada chave. 
     public Node getNode(Node no, int key){
-        
+        this.altura++; // A cada recursão um incremento de altura.
         if(no.getKey() != key && no !=null){
             if(no.getKey() > key && no.getLeft() !=null){
                 this.parent = no;
@@ -157,6 +161,12 @@ public class BinarySearchTree {
         
         return this.findNode;
         
+    }
+    
+    public int NodeHeight(Node no){
+        this.altura = 0;
+        getNode(this.root, no.getKey());
+        return altura;
     }
     
    
