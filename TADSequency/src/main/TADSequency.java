@@ -21,6 +21,12 @@ public class TADSequency {
         
         Sequency lista=new Sequency();
         
+        lista.insertAtRank(0, 1);
+        lista.insertAtRank(0, 2);
+        lista.insertAtRank(0, 3);
+        
+        System.out.println(lista.elemAtRank(0));
+        
         
     }
     

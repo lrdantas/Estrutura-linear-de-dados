@@ -16,31 +16,88 @@ public class Main {
      */
     public static void main(String[] args) {
         
-        Node no;
-        Node root = new Node(10);
+        AVLNode no;
+        AVLNode root = new AVLNode(40);
         root.setLeft(null);
         root.setRight(null);
-        BinarySearchTree tree = new BinarySearchTree(root);
+        root.setFb(0);
+        AVLTree tree = new AVLTree(root);
+        
+        
+//Example 1 -> left rotation
        
-        no = new Node(3);
-        tree.insert(no);
-        no = new Node(1);
-        tree.insert(no);
-        no = new Node(4);
-        tree.insert(no);
-        no = new Node(12);
-        tree.insert(no);
-        no = new Node(2);
-        tree.insert(no);
-        no = new Node(19);
-        tree.insert(no);
+//        no = new AVLNode(2);
+//        tree.insertAVL(no);
+//        no = new AVLNode(3);
+//        tree.insertAVL(no);
+//        no = new AVLNode(4);
+//        tree.insertAVL(no);
+//        no = new AVLNode(5);
+//        tree.insertAVL(no);
+//        no = new AVLNode(6);
+//        tree.insertAVL(no);
+//        no = new AVLNode(7);
+//        tree.insertAVL(no);
         
-        tree.remove(19);
-        tree.remove(12);
+//Example 2 -> right rotation
+
+//        no = new AVLNode(6);
+//        tree.insertAVL(no);
+//        no = new AVLNode(5);
+//        tree.insertAVL(no);
+//        no = new AVLNode(4);
+//        tree.insertAVL(no);
+//        no = new AVLNode(3);
+//        tree.insertAVL(no);
+//        no = new AVLNode(2);
+//        tree.insertAVL(no);
+//        no = new AVLNode(1);
+//        tree.insertAVL(no);
+
+//Example 3 -> test AVL
         
-        System.out.println("find node: " + tree.getNode(root, 12).getKey());
+        no = new AVLNode(30);
+        tree.insertAVL(no);
+        no = new AVLNode(60);
+        tree.insertAVL(no);
+        no = new AVLNode(70);
+        tree.insertAVL(no);
+        no = new AVLNode(35);
+        tree.insertAVL(no);
+        no = new AVLNode(10);
+        tree.insertAVL(no);
+        no = new AVLNode(5);
+        tree.insertAVL(no);
+        no = new AVLNode(12);
+        tree.insertAVL(no);
+        no = new AVLNode(3);
+        tree.insertAVL(no);
+        no = new AVLNode(33);
+        tree.insertAVL(no);
+        no = new AVLNode(11);
+        tree.insertAVL(no);
+        no = new AVLNode(9);
+        tree.insertAVL(no);
         
-        tree.inorder(root);
+        
+        tree.removeAVL(10);
+        tree.removeAVL(11);
+        tree.removeAVL(60);
+
+       
+        
+        
+        //tree.remove(3);
+    //    tree.remove(5);
+  //      tree.remove(10);
+//        tree.remove(1);
+//        
+        
+        //System.out.println("find node: " + tree.getNode(root, 12).getKey());
+        
+        tree.inorder(tree.getRoot());
+        tree.show();
+        //tree.print2D(root);
     
      
     }

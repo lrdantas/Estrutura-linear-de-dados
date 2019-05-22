@@ -5,6 +5,11 @@
  */
 package binarytree;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 /**
  *
  * @author rodrigo
@@ -18,41 +23,74 @@ public class BinarySearchTree {
     private Node parent;
     private Node parentMinNode;
     private final String NULL_SUCH_KEY = "Não existe esta chave na arvore.";
-    private int altura = 0;
-
+    private Integer altura;
+    private List largura;
+    private final Map<Integer, List> mapTree = new HashMap<Integer, List>();
+    private final Map<Integer, Integer> mapKeys = new HashMap<Integer, Integer>();
+    private int count=1;
+    
     public BinarySearchTree(Node root) {
         this.root = root;
     }
+
+    public Node getRoot() {
+        return root;
+    }
+
+    public void setRoot(Node root) {
+        this.root = root;
+    }
+    
     
     public boolean isLeaf(Node no){
         return no.getLeft() == null && no.getRight() ==null;
     }
     
+    public boolean isLeft(Node no){
+        
+        return no.getKey() < no.getFather().getKey();
+    }
+    public boolean isRight(Node no){
+        return no.getKey() > no.getFather().getKey();
+    }
+   
+    private int getNodeHeight(Node n){
+        Node temp = n;
+        altura=0;
+        while(temp!=null){
+            temp=temp.getFather();
+            altura++;
+        }
+        return altura;
+    }
     
-    public void insert(Node n){
+    public Node insert(Node n){
         
        if(this.root == null){
             root = n;
-            return;
+            return n;
         }
         
         Node sentinel = root;
-        Node parent = null;
         
         while(true){
-            parent = sentinel;
-            if(n.getKey()<sentinel.getKey()){				
+            
+            if(n.getKey()<sentinel.getKey()){	
+                parent =sentinel;
                 sentinel = sentinel.getLeft();
                 if(sentinel==null){
                     parent.setLeft(n);
-                    return;
+                    n.setFather(parent);
+                    return n;
                 }
             }
             else{
+                parent =sentinel;
                 sentinel = sentinel.getRight();
                 if(sentinel==null){
                     parent.setRight(n);
-                    return;
+                    n.setFather(parent);
+                    return n;
                 }
             }
         }   
@@ -60,14 +98,20 @@ public class BinarySearchTree {
     
     public Object remove(int key){
         
-        Node sentinel = root;
-        this.parent = null;
+        Node sentinel;
         
         sentinel = getNode(root, key);
         
         //primeiro caso:
         
+        if(sentinel == root){
+            this.root = null;
+            return "remove root";
+            
+        }
+        
         if(isLeaf(sentinel)){
+            parent = sentinel.getFather();
             if(parent.getKey() > key){
                 parent.setLeft(null);
             }
@@ -76,82 +120,143 @@ public class BinarySearchTree {
             }
         }
         
-        //segundo caso:
-        else if(sentinel.getLeft() != null && sentinel.getRight() !=null){
-            Node sucess;
-            sucess = minNode(sentinel.getRight());
-            sentinel = sucess;
+        //segundo caso
+        else if(sentinel.getLeft() == null ^ sentinel.getRight() == null){
             
-            //if(parent.getKey()> sucess.getKey()){
-                //parent.setLeft(sucess);
-                //sucess.setLeft(sentinel.getLeft());
-                //sucess.setRight(sentinel.getRight());
+            if(sentinel.getRight()!=null){
+                sentinel.setKey(sentinel.getRight().getKey());
+                sentinel.setLeft(sentinel.getRight().getLeft());
+                sentinel.setRight(sentinel.getRight().getRight());            
+            }
+            else{
+                sentinel.setKey(sentinel.getLeft().getKey());
+                sentinel.setLeft(sentinel.getLeft().getLeft());
+                sentinel.setRight(sentinel.getLeft().getRight());   
+            }
+            
+            
+        }
+        
+        //terceiro caso
+        
+        else if(sentinel.getLeft() != null && sentinel.getRight() != null){
+            Node min;
+            min = minNode(sentinel.getRight());
+            
+            //sentinel.setKey(min.getKey());
+            if(isRight(min)){
+                if(sentinel.getFather()!=null){
+                    if(isLeft(sentinel))
+                        sentinel.getFather().setLeft(min);
+                    else if(isRight(sentinel))
+                        sentinel.getFather().setRight(min);
+                
+                }
+               min.setLeft(sentinel.getLeft());
                
-            //}
-            //else{
-            //    parent.setRight(sucess);
-            //    sucess.setLeft(sentinel.getLeft());
-            //    sucess.setRight(sentinel.getRight());
-            //}
-        }
-        
-        //Terceiro caso:
-       
-        else if(sentinel.getLeft()!=null){
-            if(sentinel.getKey() > sentinel.getLeft().getKey()){
-                parent.setLeft(sentinel.getLeft());
+               sentinel.getLeft().setFather(min);
+               // min.getFather().setRight(min.getRight());
+               min.setFather(sentinel.getFather());
+               
+//               if(min.getRight()!=null){
+//                    min.getRight().setFather(min.getFather());
+//                }
             }
-            else{
-                parent.setRight(sentinel.getLeft());
-            }         
-        }
-        
-       
-        else if(sentinel.getRight()!=null){
-            if(sentinel.getKey() > sentinel.getLeft().getKey()){
-                parent.setLeft(sentinel.getRight());
+            else if(isLeft(min)){
+                if(sentinel.getFather()!=null){
+                    if(isLeft(sentinel))
+                        sentinel.getFather().setLeft(min);
+                    else if(isRight(sentinel))
+                        sentinel.getFather().setRight(min);
+                }
+                min.getFather().setLeft(min.getRight());
+                if(min.getRight()!=null){
+                    min.getRight().setFather(min.getFather());               
+                }
+                
+               min.setLeft(sentinel.getLeft());
+               min.setRight(sentinel.getRight());
+               sentinel.getLeft().setFather(min);
+               sentinel.getRight().setFather(min);
+               min.setFather(sentinel.getFather());
+                
             }
-            else{
-                parent.setRight(sentinel.getRight());
-            }                
         }
         
-    
-        return "Deu certo coleguinha";
+         return "Deu certo coleguinha";
             
         
     }
     
     public Node minNode(Node noM){
-           
+        int step = 0;   
         while(noM.getLeft() != null){
-            this.parentMinNode = noM;
-            this.parentMinNode.setRight(noM.getLeft().getRight());
             noM = noM.getLeft();
-
-        }        
+            step++;
+        }
+//        if(step <2){
+//            noM.getFather().setRight(noM.getRight());
+//            if(noM.getRight()!=null){
+//                noM.getRight().setFather(noM.getFather());
+//            }
+//        }
         return noM;
     }
     
     public void inorder(Node no) { 
         if (no != null) 
-        { 
+        {   
             inorder(no.getLeft()); 
-            System.out.print(no.getKey() + " "); 
+            System.out.print(no.getKey() + "   "); 
+//            this.altura = getNodeHeight(no)-1;
+//            if(!mapTree.containsKey(altura)){
+//                largura = new ArrayList();
+//                largura.add(count);
+//            }
+//            else{
+//                largura = mapTree.get(altura);
+//                largura.add(count);
+//            }
+//            this.mapTree.put(altura, largura);
+//            this.mapKeys.put(count, no.getKey());
+//            count++;
             inorder(no.getRight()); 
+            
         } 
+        
     }
+    
+    public void show(){
+        for(int i=0; mapTree.size() > i; i++){
+            System.out.println("\n \n");
+            for(Object j : mapTree.get(i)){
+                int t = (Integer) j;
+                for(int k = 0; t > k; k++){
+                    System.out.print("   ");
+                    if(t==k+1){
+                        System.out.print("<-|" + mapKeys.get(t) + "|->");
+                    }
+                }
+ 
+            }
+                      
+        }
+        System.out.println("\n\n");
+        //System.out.println(mapTree);
+        //System.out.println(mapKeys);
+        
+    }
+
+    
     
     //Acha um decendente através de um dado ancestral. ex: passado um nó raiz, acha a posição de um nó em uma determinada chave. 
     public Node getNode(Node no, int key){
-        this.altura++; // A cada recursão um incremento de altura.
+//        this.altura++; // A cada recursão um incremento de altura.
         if(no.getKey() != key && no !=null){
             if(no.getKey() > key && no.getLeft() !=null){
-                this.parent = no;
                 getNode(no.getLeft(), key);
             }
             else if(no.getRight()!= null){
-                this.parent = no;
                 getNode(no.getRight(), key);
             }
         }
