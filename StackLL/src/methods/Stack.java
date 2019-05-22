@@ -7,27 +7,42 @@ package methods;
 
 import exception.IsStackEmpty;
 
-/**
- *
- * @author rodrigo
- */
+/**Class for entity Node
+* @author Luis Rodrigo Dantas da Silva
+* @version 1.0
+* @since Release 01
+*/
+
+
 public class Stack implements IStack{
     
     private int count = 0;
     
     private Node no = null;
+    
+    
+    /** Method to return size of stack.
+    *   @return int - size of stack*/
 
     @Override
     public int size() {
         return count;
     }
+    
+    
+    /** Method to push node in the stack.
+    *   @param o Object - set object*/
 
     @Override
     public void push(Object o) {
         this.count++;
-        this.no = new Node(o, this.no);
+        this.no = new Node(o, this.no); // new node -> object + reference of previous node.
         
     }
+    
+    
+    /** Method to pop node in the stack.
+    *   @return Object - Object removed*/
 
     @Override
     public Object pop() throws IsStackEmpty {
@@ -42,6 +57,10 @@ public class Stack implements IStack{
         return temp;
    
     }
+    
+    
+    /** Method to show top node in the stack.
+    *   @return Object - Object of top node*/
 
     @Override
     public Object top() throws IsStackEmpty {
@@ -50,6 +69,10 @@ public class Stack implements IStack{
         }
         return this.no.getO();
     }
+    
+    
+    /** Method to show if stack is empty.
+    *   @return boolean - condicional on stack size*/
 
     @Override
     public boolean isEmpty() {

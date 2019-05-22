@@ -5,21 +5,27 @@
  */
 package entity;
 
-/**
- *
- * @author rodrigo
- */
+/**Class for entity Element
+* @author Luis Rodrigo Dantas da Silva
+* @version 1.0
+* @since Release 01
+*/
 public class Element {
-    private String nome;
     
+    private String name;
     
-
-    public String getNome() {
-        return nome;
+    /** Method to return name of element.
+    *   @return String - Name of element*/
+    public String getName() {
+        return name;
     }
-
-    public void setNome(String nome) {
-        this.nome = nome;
+    
+    /** Method to set name of element.
+    *   @param name String - name of element.
+    */
+    
+    public void setName(String name) {
+        this.name = name;
     }
     
     
